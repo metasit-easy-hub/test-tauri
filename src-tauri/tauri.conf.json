@@ -1,0 +1,37 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Commerzy Pack",
+  "version": "1.0.0",
+  "identifier": "com.tauri-app.app",
+  "build": {
+    "frontendDist": "../src",
+    "beforeBuildCommand": "",
+    "beforeDevCommand": ""
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "title": "Commerzy Pack Station Video Uploader",
+        "width": 800,
+        "height": 600
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+
+
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/download_arrow_14460.icns",
+      "icons/cmz-icon.ico"
+    ]
+  }
+}

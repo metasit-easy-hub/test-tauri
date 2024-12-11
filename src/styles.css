@@ -1,0 +1,139 @@
+@font-face {
+  font-family: myFirstFont;
+  src: url('assets/fonts/TTF/LINESeedSansTH_A_Rg.ttf');
+}
+
+@font-face {
+  font-family: fontNormal;
+  src: url('assets/fonts/TTF/LINESeedSansTH_A_Rg.ttf');
+}
+
+@font-face {
+  font-family: fontLogoRocket;
+  src: url('assets/fonts/TTF/LINESeedSansTH_A_XBd.ttf');
+}
+
+@font-face {
+  font-family: FontLogo;
+  src: url('assets/fonts/TTF/LINESeedSansTH_A_Bd.ttf');
+}
+
+.bd-radius-4{
+  border-radius: 4px;
+}
+
+
+.font-logo {
+  font-family: FontLogo !important;
+}
+.font-normal {
+  font-family: fontNormal !important;
+  font-weight: bold;
+}
+
+
+ul li {
+  white-space: nowrap !important;
+}
+body{
+  height: 100vh;
+}
+.btn-hover-extend {
+  /* Initial state */
+  max-width: 40px;
+  padding: 6px 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.btn-hover-extend span {
+  /* Hide text initially */
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  margin-left: 0;
+  transition: all 0.3s ease-out;
+}
+
+/* Hover state */
+.btn-hover-extend:hover {
+  max-width: 300px;
+  padding: 6px 20px;
+  transition: all 0.3s ease-out;
+}
+
+.btn-hover-extend:hover span {
+  max-width: 200px;
+  opacity: 1;
+  margin-left: 8px;
+  transition: all 0.3s ease-in;
+}
+
+/* Mouse out state */
+.btn-hover-extend:not(:hover) {
+  max-width: 40px;
+  transition: all 0.3s ease-in;
+}
+
+.btn-hover-extend:not(:hover) span {
+  max-width: 0;
+  opacity: 0;
+  margin-left: 0;
+  transition: all 0.3s ease-in;
+}
+.box-img{
+  height:45px;
+}
+.box-header{
+  background : linear-gradient(25deg, rgba(153, 205, 60, 1) 0%, rgba(2, 151, 151, 1) 100%)
+}
+
+.btn {
+    background: #fff;
+    border: 1px solid #4cae4c;
+    color: #4cae4c;
+    font-size: 12px;
+    padding: 5px 10px 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.h-30{
+  height:30px;
+}
+
+.progress-container {
+  width: 100%;
+  height: 20px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(25deg, rgba(153, 205, 60, 1) 0%, rgba(2, 151, 151, 1) 100%);
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  text-align: center;
+  font-size: 12px;
+  color: #666;
+  margin-top: 5px;
+}
+.point-no-touch{
+  resize: none;  /* Prevents resize handle */
+  cursor: default;  /* Changes cursor to indicate non-editable */
+}
+
+.box-area{
+   height:130px;
+   max-height:130px;
+   border: 1px solid #ced4da;
+   overflow: auto;
+}
