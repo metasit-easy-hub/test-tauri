@@ -30,7 +30,10 @@
   font-family: fontNormal !important;
   font-weight: bold;
 }
-
+.bg-select{
+  background: darkgray;
+  color:white;
+}
 
 ul li {
   white-space: nowrap !important;
@@ -136,4 +139,11 @@ body{
    max-height:130px;
    border: 1px solid #ced4da;
    overflow: auto;
+}
+
+.bd-radius-15{
+  border-radius: 15px;
+}
+.a-click{
+  cursor: pointer;
 }

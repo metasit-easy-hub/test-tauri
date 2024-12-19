@@ -52,7 +52,9 @@
                   <div class="col-6 ">
                     <div class="d-flex align-items-center mb-2">
                       <div class="text-nowrap fw-bold me-2 font-logo">  ไฟล์วิดีโอที่กำลังรอการอัพโหลด </div>
-                      <button class="btn" id="btn-progress" > เปิด Folder</button>
+                      <button class="btn" id="btn-progress" > 
+                        <i class="fa-solid fa-folder-open"></i>
+                      </button>
                     </div>
                     <div id="fileList" class="bd-radius-4 box-area w-100 p-2">
                     </div>
@@ -62,7 +64,15 @@
                       <div class="text-nowrap fw-bold me-2 font-logo">  
                         ไฟล์วิดีโอที่มีปัญหา
                       </div>
-                      <button class="btn" id="btn-problem"> เปิด Folder</button>
+                      <button class="btn" id="btn-problem"> 
+                        <i class="fa-solid fa-folder-open"></i>
+                      </button>
+                      <button class="btn ms-2" id="syn-file-problem">
+                        <i class="fa-solid fa-angles-left"></i>
+                      </button>
+                      <button class="btn ms-2" id="btn-delete">
+                        <i class="fa-solid fa-trash"></i>
+                      </button>
                     </div>
   
                     <div id="deleteList" class="bd-radius-4 box-area w-100 p-2" id="deleteList">
@@ -79,7 +89,7 @@
                   <span class="font-logo me-2">
                     ไฟล์วิดีโอกำลังโหลด
                   </span> 
-                  <button class="btn" id="syn-file">Syn File</button>
+                  <button class="btn d-none" id="syn-file">Syn File</button>
                   <button class="btn d-none" id="syn-file-problem">Syn File problem</button>
                   
   
@@ -88,7 +98,7 @@
                   <span class="text-nowrap font-normal" id="name-file"></span>
                   <div class="progress ms-3 w-100" >
                     <div class="progress-bar" role="progressbar" id="progress_bar"
-                     style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                     style="width: 0%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">0%</div>
                   </div>
                 </div>
               </div>
@@ -97,8 +107,7 @@
         </div>
       </div>
     <script>
-      try {
-      // prompt("Please enter your text:")
+
       let mediaRecorder;
       let recordedChunks = [];
       let folderHandle, folderDelete;
@@ -114,8 +123,60 @@
 			let	storeName = 'handlesMove'
 			let	handleKey = 'dirHandleMove'
       let progress  = "0"
+      let storeSelectMove = []
+      let statusUpload = false
+      let percentCompleted = null
+
+      try {
+      // prompt("Please enter your text:")
+
+      // ฟังก์ชันสำหรับบันทึกค่าลงใน array โดยไม่ซ้ำกัน
+      function saveUniqueToArray(array, value) {
+        // ตรวจสอบว่าค่ายังไม่มีใน array
+        if (!array.includes(value)) {
+          array.push(value);
+          return array
+        }
+        else {
+          const index = array.indexOf(value);
+          if (index > -1) {
+            array.splice(index, 1);
+          }
+          return array;
+        }
+        // return array;
+      }
+
+      // ฟังก์ชันสำหรับลบค่าออกจาก array
+      
+       document.getElementById('syn-file-problem').disabled = true;
+       document.getElementById('btn-delete').disabled = true;
 
 
+      function selectMove(event){
+        const targetId = event.target.id;
+        if(storeSelectMove.includes(targetId)){
+          event.target.classList.remove('bg-select');
+        }
+        else {
+          event.target.classList.add('bg-select');
+        }
+        
+        storeSelectMove = saveUniqueToArray(storeSelectMove,targetId);
+        console.log(storeSelectMove,'storeSelectMove');
+
+        // Disable/enable buttons based on storeSelectMove length
+        const synFileProblemBtn = document.getElementById('syn-file-problem');
+        const btnDelete = document.getElementById('btn-delete');  
+        if (storeSelectMove.length === 0) {
+          synFileProblemBtn.disabled = true;
+          btnDelete.disabled = true;
+        } else {
+          synFileProblemBtn.disabled = false;
+          btnDelete.disabled = false;
+        }
+        // console.log(event.target,'event');
+      }
 
 
       function generateUUID() {
@@ -141,17 +202,12 @@
         handleKey =  `${handleKey}_${nameWebCam}`;
         localStorage.setItem("site-web", nameWebCam);
       }
-      setTimeout(() => {
-        document.getElementById("input-key").value = folderHandle.name;  
-      }, 100);
+      // setTimeout(() => {
+      //   document.getElementById("input-key").value = folderHandle.name;  
+      // }, 100);
       
       // nameWebCam.toString();
       
-
-
-
-      
-
           async function openDB() {
             return new Promise((resolve, reject) => {
               const request = indexedDB.open(dbName, 1);
@@ -228,18 +284,41 @@
 
           
           async function setFolder(){
-            folderHandle = await loadDirHandle()
-            console.log(folderHandle,'folderHandle');
-            console.log(folderHandle.name,'name');
-            console.log(folderHandle.values(),'values');
-            console.log(folderHandle.entries(),'folderHandle.entries');
+            // console.log('setFolder');
+            if(!folderHandle){
+              folderHandle = await loadDirHandle()
+            }
+            
+            // folderHandle = null;
+            // console.log(folderHandle,'folderHandle');
+            // console.log(folderHandle.name,'name');
+            // console.log(folderHandle.values(),'values');
+            // console.log(folderHandle.entries(),'folderHandle.entries');
 
 
             if(folderHandle){
               try {
+                document.getElementById("input-key").value = folderHandle.name;
+                // ติดตามการเปลี่ยนแปลงของ otherFile
+
                 await getList('fileList')	
                 await getList('deleteList')	
+
+                setInterval(async () => {
+                  if (!statusUpload) {
+                    await getList('fileList')
+                  }
+                  if (otherFile.length > 0 && !statusUpload) {
+                    console.log('click-syn');
+                    document.getElementById("syn-file").click();
+                  }
+                }, 1000);
+                
+
+
+
               } catch (error) {
+                console.log('error',error.message);
               }		
             }
           }
@@ -255,222 +334,168 @@
           })
           
           
-          
+          document.getElementById("btn-delete").addEventListener("click", async () => {
+            let fileProblem = []
+            if (confirm('คุณต้องการลบไฟล์ที่เลือกใช่หรือไม่?')) {
+              for await (const entry of problemFolder.values()) {
+                if (entry.kind === 'file' && entry.name.toLowerCase().endsWith('.webm') &&
+                  storeSelectMove.includes(entry.name)
+              ) {
+                  fileProblem.push(entry);
+                }
+              }
+              for await (const entry of fileProblem.values()) {
+                if (entry.kind === "file") {
+                  await entry.remove()
+                  // ลบค่าออกจาก storeSelectMove หลังจากลบไฟล์
+                  const index = storeSelectMove.indexOf(entry.name);
+                  if (index > -1) {
+                    storeSelectMove.splice(index, 1);
+                  }
+                }
+              }
+              getList("fileList")
+              getList("deleteList")
+
+              if(storeSelectMove.length == 0) {
+                document.getElementById('syn-file-problem').disabled = true;
+                document.getElementById('btn-delete').disabled = true;
+              }
+            }
+          })
+
+      
 
 
 
       document.getElementById("syn-file-problem").addEventListener("click", async () => {
+        // handleFolder
         // archiveFolder
         // problemFolder
         // otherFile  
-        for await (const entry of otherFileProblem.values()) {
+          let fileProblem = []
+          for await (const entry of problemFolder.values()) {
+            if (entry.kind === 'file' && entry.name.toLowerCase().endsWith('.webm') &&
+              storeSelectMove.includes(entry.name)
+          ) {
+              fileProblem.push(entry);
+            }
+          }
+        
+          for await (const entry of fileProblem.values()) {
             if (entry.kind === "file") {
               const file = await entry.getFile();
-              const newHandle = await archiveFolder.getFileHandle(entry.name, { create: true });
+              const newHandle = await folderHandle.getFileHandle(entry.name, { create: true });
               const writable = await newHandle.createWritable();
               await writable.write(file);
               await writable.close();
               await entry.remove()
+              await getList("fileList");
+              await getList("deleteList");  
             }
           }
           getList("fileList")
           getList("deleteList")
           let dataText = "";
-          for await (const entry of archiveFolder.values()) {
-              if(entry.kind == 'file'){
-                otherFile.push(entry)
-              }
-              if(entry.kind == 'file'){
-                otherFile.push(entry)
-                dataText += entry.name + "\n";
-              }
-          }
-          document.getElementById("fileList").innerText = dataText;
-          document.getElementById("deleteList").innerText = "";
           otherFileProblem = []
-          
-
+          storeSelectMove = [];
+          document.getElementById('syn-file-problem').disabled = true;
+          document.getElementById('btn-delete').disabled = true;
       });
 
 
 
       document.getElementById("syn-file").addEventListener("click", async () => {
-        
-
         try {
-          
-          let siteId = 22;
-          let hash = '6ekogarf';
-          const response = await axios.get(`https://uatcmzapi.commerzy.net/api/v2/site/${siteId}/pack-upload/${hash}/pre-signed`, {
-            headers: {
-              'Authorization': `Bearer 1e30cf81d4d2b9f428f9feffbd5a031d`
-            }
-          });
-
-          let linkSigned 
-          try {
-            linkSigned = response.data['pre-signed']
-          } catch (error) {
-            linkSigned = null
-          }
-          console.log(linkSigned,'linkSigned');
-          console.log(otherFile,'otherFile');
           let onlyWebCam = otherFile.filter(file => file.name.toLowerCase().endsWith('.webm'))
           console.log(onlyWebCam,'onlyWebCam');
-
-          for (const file of onlyWebCam) {
+          for (let i = 0; i < onlyWebCam.length; i++) {
+            const file = onlyWebCam[i];
             try {
-              const fileData = await file.getFile();
-              console.log(fileData,'fileData');
-
-              
-              const response = await axios.put(linkSigned, fileData, {
+              let siteId = null;
+              let hash = null;
+              let invoice = null
+              let name_file = file.name.split("_")
+              // console.log(name_file,'name_file');
+              if(name_file.length==3){
+                name_file[2] = name_file[2].split(".")[0];
+                // console.log(name_file.length,'length');
+                // console.log(name_file,'name_file');
+                siteId = name_file[0];
+                invoice = name_file [1]
+                hash = name_file[2];
+              }
+              statusUpload = true
+              let url = `https://uatcmzapi.commerzy.net/api/v2/site/${siteId}/pack-upload/${invoice}/pre-signed-put?hash=${hash}`
+              let response_presigned = await axios.get(url, {
                 headers: {
-                  'Content-Type': 'video/webm',
-                  'Access-Control-Allow-Origin': '*',
-                  'Access-Control-Allow-Methods': 'PUT, POST, GET, DELETE, PATCH, OPTIONS',
-                  'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-                },
+                  'Authorization': `Bearer 1e30cf81d4d2b9f428f9feffbd5a031d`
+                }
+              });
+              let linkSigned 
+              try {
+                linkSigned = response_presigned.data['pre-signed']
+              } catch (error) {
+                linkSigned = null
+              }
+              console.log(linkSigned,'linkSigned');
+              console.log(file,'file-test');
+              const fileData = await file.getFile();
+              console.log('before');
+              const response = await axios.put(linkSigned, fileData, {
                 onUploadProgress: (progressEvent) => {
-                  const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                  percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
                   document.getElementById("progress_bar").style.width = `${percentCompleted}%`;
                   document.getElementById("progress_bar").innerHTML = `${percentCompleted}%`;
                   document.getElementById("name-file").innerText = file.name;
                   progress = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-                  
-                  console.log(`อัพโหลดสำเร็จ ${percentCompleted}%`);
                 }
               });
-
+              console.log('after');
               if (response.status === 200) {
-                // alert('อัพโหลดไฟล์สำเร็จ');
+                console.log('TRUE-success');
                 document.getElementById("name-file").innerText = '';
                 document.getElementById("progress_bar").style.width = `0%`;
                 document.getElementById("progress_bar").innerHTML = `0%`;
-                setTimeout(() => {
-                  getList("fileList")
-                  getList("deleteList")                  
-                }, 500);
+                await new Promise(resolve => setTimeout(resolve, 500));
+               
 
+                const newHandle = await archiveFolder.getFileHandle(file.name, { create: true });
+                const fileToMove = await file.getFile();
+                const writable = await newHandle.createWritable();
+                await writable.write(fileToMove);
+                await writable.close();
                 await file.remove();
+                await getList("fileList");
+                await getList("deleteList");   
+
+                progress = "0"
               }
 
             } catch (error) {
-              console.error('เกิดข้อผิดพลาดในการอัพโหลด:', error);
+              console.log('เกิดข้อผิดพลาดในการอัพโหลด:', error.message);
               const newHandle = await problemFolder.getFileHandle(file.name, { create: true });
               const fileToMove = await file.getFile();
               const writable = await newHandle.createWritable();
               await writable.write(fileToMove);
               await writable.close();
               await file.remove();
+              await getList("fileList");
+              await getList("deleteList");   
             }
           }
 
-          // console.log(archiveFolder,'archiveFolder');
-          // let storeFile = []
-          // let dataText = "";
-          // for await (const entry of archiveFolder.values()) {
-          //   if(entry.kind == 'file'){
-          //     storeFile.push(entry)
-          //     dataText += entry.name + "\n";
-          //   }
-          // }
-          // console.log(storeFile,'storeFile');
-
-          // document.getElementById("fileList").innerText = dataText;
         } catch (error) {
           console.error('เกิดข้อผิดพลาด:', error);
         }
-        
-        
+      
         // archiveFolder
         // problemFolder
         // otherFile  
-        // for await (const entry of otherFile.values()) {
-        //     if (entry.kind === "file") {
-        //       const file = await entry.getFile();
-        //       const newHandle = await problemFolder.getFileHandle(entry.name, { create: true });
-        //       const writable = await newHandle.createWritable();
-        //       await writable.write(file);
-        //       await writable.close();
-        //       await entry.remove()
-        //     }
-        //   }
-        //   let dataText = ""
-        //   for await (const entry of problemFolder.values()) {
-        //       if(entry.kind == 'file'){
-        //         otherFileProblem.push(entry)
-        //       }
 
-        //       if(entry.kind == 'file'){
-        //         otherFile.push(entry)
-        //         dataText += entry.name + "\n";
-        //       }
-        //   }
-        //   document.getElementById("fileList").innerText = "";
-        //   document.getElementById("deleteList").innerText = dataText;
-        //   otherFile = []
+          statusUpload = false
+          otherFile = []
       });
-
-
-      // document.getElementById("unArchive").addEventListener("click", async () => {
-      //   console.log('storeFile',storeFile);
-      //     for await (const entry of folderHandle.values()) {
-      //       console.log("entry", entry);
-      //       if (entry.kind === "file") {
-      //           if(storeFile.includes(entry.name)){
-      //               console.log('entry',entry);
-      //               const file = await entry.getFile();
-      //               const newHandle = await folderDelete.getFileHandle(entry.name, { create: true });
-      //               const writable = await newHandle.createWritable();
-      //               await writable.write(file);
-      //               await writable.close();
-      //               await entry.remove()
-      //           }
-      //       }
-      //     }
-      //     getList("fileList")
-      //     getList("deleteList")
-      // });
-
-
-
-      // document.getElementById("Archive").addEventListener("click", async () => {
-      //   console.log('storeFile',storeFile);
-      //     for await (const entry of folderDelete.values()) {
-      //       console.log("entry", entry);
-      //       if (entry.kind === "file") {
-      //           if(storeDelete.includes(entry.name)){
-      //               console.log('entry',entry);
-      //               const file = await entry.getFile();
-      //               const newHandle = await folderHandle.getFileHandle(entry.name, { create: true });
-      //               const writable = await newHandle.createWritable();
-      //               await writable.write(file);
-      //               await writable.close();
-      //               await entry.remove()
-      //           }
-      //       }
-      //     }
-      //     getList("fileList")
-      //     getList("deleteList")
-      // });
-
-
-      
-
-      // document.getElementById("fileList").addEventListener("input", (e) => {
-      //   if (e.target.type === "checkbox") {
-      //     if (e.target.checked) {
-      //       storeFile.push(e.target.value);
-      //     } else {
-      //       const index = storeFile.indexOf(e.target.value);
-      //       if (index > -1) {
-      //         storeFile.splice(index, 1);
-      //       }
-      //     }
-      //     console.log("storeFile", storeFile);
-      //   }
-      // });
 
       document.getElementById("deleteList").addEventListener("input", (e) => {
         if (e.target.type === "checkbox") {
@@ -487,6 +512,8 @@
 
     
       async function getList(str) {
+        // otherFile = [];
+        let fileArchive,fileProblem = []
         if (str === "fileList") {
           if (!folderHandle) return;
         } 
@@ -496,37 +523,61 @@
 
         
         if (str === "fileList") {
-          let dataText = ""
-          for await (const entry of folderHandle.values()) {
-            if(entry.kind == 'directory' && entry.name == 'archive') {
-              archiveFolder = entry
-            }
-
-            else if(entry.kind == 'directory' && entry.name == 'problem'){
-              problemFolder = entry
-            }
-
-            else {
-              if(entry.kind == 'file'){
-                otherFile.push(entry)
-                dataText += entry.name + "\n";
+          
+          try {
+            let dataText = ""
+            let checkFolder = []
+            for await (const entry of folderHandle?.values() || []) {
+              
+              if(entry.kind == 'directory' && entry.name == 'archive') {
+                checkFolder.push(entry.name);
+                archiveFolder = entry
+              }
+              else if(entry.kind == 'directory' && entry.name == 'problem'){
+                problemFolder = entry
+                checkFolder.push(entry.name);
+              }
+              else {
+                if(entry.kind == 'file'){
+                  if (entry.name.toLowerCase().endsWith('.webm')) {
+                    
+                    if (!otherFile.some(file => file.name === entry.name)) {
+                      otherFile.push(entry)
+                    }
+                  }
+                  dataText += entry.name + "\n";
+                }
               }
             }
-          }
+            if(!checkFolder.includes('archive') || !checkFolder.includes('problem')){
+              // return alert("กรุณาสร้าง Folder archive และ problem ก่อนใช้งานโปรแกรม");
+            }
 
-          
-          document.getElementById("fileList").innerText = dataText;
-        } else if (str === "deleteList") {
+            dataText = dataText.split('\n')
+            .filter(name => name.toLowerCase().endsWith('.webm'))
+            .join('\n');
+            
+            document.getElementById("fileList").innerText = dataText;
+          } catch (error) {
+            console.error('Error processing files:', error);
+          }
+        } 
+        //  file-problem
+        else if (str === "deleteList") {
 
           let dataText = "";
           for await (const entry of problemFolder.values()) {
               if(entry.kind == 'file'){
-                otherFile.push(entry)
+                if (entry.name.toLowerCase().endsWith('.webm')) {
+                  // otherFile.push(entry)
+                }
                 dataText += entry.name + "\n";
+                if (entry.name.toLowerCase().endsWith('.webm')) {
+                  document.getElementById("deleteList").innerHTML += `<div class="px-2 a-click" onclick='selectMove(event)' id='${entry.name}'>${entry.name}</div>`;
+                }
               }
           }
-          document.getElementById("deleteList").innerText = dataText;
-          
+
         }
       }
 
@@ -536,11 +587,48 @@
         .addEventListener("click", async () => {
           try {
             folderHandle = await window.showDirectoryPicker({mode: "readwrite"});
+            // เช็คโฟลเดอร์ย่อยทั้งหมด
+            let hasArchive = false;
+            let hasProblem = false;
+
+            // วนตรวจสอบโฟลเดอร์ย่อย
+            for await (const entry of folderHandle.values()) {
+              if (entry.kind === 'directory') {
+                if (entry.name === 'archive') {
+                  hasArchive = true;
+                  archiveFolder = entry;
+                }
+                if (entry.name === 'problem') {
+                  hasProblem = true; 
+                  problemFolder = entry;
+                }
+              }
+            }
+
+            // ถ้าไม่มีโฟลเดอร์ใดโฟลเดอร์หนึ่ง ให้แจ้งเตือนและหยุดการทำงาน
+            if (!hasArchive || !hasProblem) {
+              alert("กรุณาสร้าง Folder archive และ problem ก่อนใช้งานโปรแกรม");
+              folderHandle = null;
+              document.getElementById("input-key").value = "";
+              // ล้างค่าใน IndexedDB
+              try {
+                const db = await openDB();
+                const transaction = db.transaction(storeName, 'readwrite');
+                const store = transaction.objectStore(storeName);
+                await store.clear(); // ล้างข้อมูลทั้งหมดใน store
+                console.log('ล้างข้อมูลใน IndexedDB สำเร็จ');
+              } catch (err) {
+                console.error('เกิดข้อผิดพลาดในการล้างข้อมูล IndexedDB:', err);
+              }
+              return;
+            }
+
             const permissionState = await folderHandle.requestPermission({ mode: 'readwrite' });
 							if (permissionState === 'granted') {
 								try {
 									const savedSuccessfully = await saveDirHandle(folderHandle);
-									getList("fileList");
+                  setFolder();
+
 								} catch (dbError) {
 								}
 							} else {
@@ -550,7 +638,7 @@
           } catch (error) {
             console.error("Folder selection canceled:", error);
           }
-        });
+      });
 
       // document
       //   .getElementById("SelectDelete")
@@ -619,6 +707,7 @@
           // console.log(error.message);
       }
       
+
     </script>
   </body>
 </html>
