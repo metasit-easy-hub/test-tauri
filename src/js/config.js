@@ -1,0 +1,1 @@
+const APIURL = "https://uatcmzapi.commerzy.net";

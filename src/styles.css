@@ -40,7 +40,14 @@ ul li {
 }
 body{
   height: 100vh;
+  font-family: fontNormal !important;
 }
+
+.nav-link{
+  font-family: fontNormal !important;
+  color: black;
+}
+
 .btn-hover-extend {
   /* Initial state */
   max-width: 40px;
@@ -103,6 +110,14 @@ body{
     border-radius: 5px;
     cursor: pointer;
 }
+
+.btn:disabled{
+  cursor: not-allowed;
+  background: #eee;
+  color: #999;
+  border: 1px solid #999;
+}
+
 .h-30{
   height:30px;
 }
