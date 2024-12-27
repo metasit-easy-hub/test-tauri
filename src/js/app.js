@@ -332,7 +332,7 @@ try {
     
                                 progress = "0"
 
-                                awaitupdataUploadDt(siteId, invoice, hash);
+                                await updataUploadDt(siteId, invoice, hash);
                             }else{
                                 throw new Error('อัพโหลดไม่สำเร็จ');
                             }
@@ -516,8 +516,6 @@ try {
                     problemFolder = await folderHandle.getDirectoryHandle('problem', { create: true });
                 }
 
-                const permissionState = await folderHandle.requestPermission({ mode: 'readwrite' });
-
                 try {
                     await saveDirHandle(folderHandle);
 
@@ -525,8 +523,7 @@ try {
                     console.error('เกิดข้อผิดพลาดในการบันทึกข้อมูลใน IndexedDB:', dbError);
                 }
 
-                // ดึงข้อมูลมาแสดง
-                getList("fileList");
+                setFolder();
             } catch (error) {
                 console.error("Folder selection canceled:", error);
             }
