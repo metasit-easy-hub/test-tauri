@@ -131,12 +131,38 @@ try {
         }
     }
 
+    async function verifyPermissions(handle) {
+
+        try {
+
+            // ตรวจสอบสิทธิ์ก่อน
+            const permission = await handle.queryPermission({ mode: 'readwrite' });
+            
+            if (permission !== 'granted') {
+                // ถ้ายังไม่ได้สิทธิ์ ให้ขอสิทธิ์
+                if ((await handle.requestPermission({ mode: 'readwrite' })) !== 'granted') {
+                    document.getElementById('permissionWarning').classList.remove('d-none');
+                    throw new Error('ไม่ได้รับอนุญาตให้เข้าถึงโฟลเดอร์');
+                }
+            }
+
+            // ซ่อน warning ถ้าได้รับสิทธิ์
+            document.getElementById('permissionWarning').classList.add('d-none');
+
+        } catch (error) {
+            document.getElementById('permissionWarning').classList.remove('d-none');
+            throw error;
+        }
+
+    }
+
 
     // check folderHandle ใน db ถ้ามีให้เอามาใช้ ถ้าไม่มีก็ไม่ต้องทำอะไรให้ user เลือกโฟลเดอร์
     async function setFolder() {
         // console.log('setFolder');
         if (!folderHandle) {
-            folderHandle = await loadDirHandle()
+            folderHandle = await loadDirHandle();
+
         }
 
         // folderHandle = null;
@@ -148,6 +174,8 @@ try {
 
         if (folderHandle) {
             try {
+
+                await verifyPermissions(folderHandle);
 
                 document.getElementById("input-key").value = folderHandle.name;
 
