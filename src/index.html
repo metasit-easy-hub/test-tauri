@@ -23,18 +23,23 @@
     <!-- เพิ่ม Offcanvas menu -->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
       <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="sidebarMenuLabel">เมนู</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          <h5 class="offcanvas-title" id="sidebarMenuLabel">เมนู</h5>
+          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#settingsModal" data-bs-dismiss="offcanvas">
-              <i class="fa-solid fa-gear me-2"></i>ตั้งค่า
-            </a>
-          </li>
-          <!-- เพิ่มเมนูอื่นๆ ตามต้องการ -->
-        </ul>
+          <ul class="nav flex-column">
+              <li class="nav-item">
+                  <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#settingsModal" data-bs-dismiss="offcanvas">
+                      <i class="fa-solid fa-gear me-2"></i>ตั้งค่า
+                  </a>
+              </li>
+              <!-- เพิ่มเมนูอื่นๆ ตามต้องการ -->
+          </ul>
+          
+          <!-- เพิ่มเวอร์ชันที่ด้านล่างของ offcanvas -->
+          <div class="position-absolute bottom-0 start-0 w-100 p-3 text-muted small text-center">
+            Version <span id="appVersion"></span>
+          </div>
       </div>
     </div>
 

@@ -614,6 +614,10 @@ try {
         
         // เรียกใช้ตอนโหลดหน้า
         document.addEventListener('DOMContentLoaded', () => {
+
+            // แสดงเวอร์ชัน
+            document.getElementById('appVersion').textContent = APPVERSION;
+
             // เช็คว่าเป็น apikey หรือยัง
             checkAndToggleApiKeyWarning();
         });
