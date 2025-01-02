@@ -4,11 +4,12 @@ import { confirm, message } from "@tauri-apps/plugin-dialog";
 
 export async function checkForUpdates() {
   try {
+    console.log("checkForUpdates");
     const update = await check();
 
     if (update?.available) {
       const confirmed = await confirm(
-        `มีเวอร์ชั่นใหม่ ${update?.manifest?.version} พร้อมให้อัพเดท\n\nรายละเอียด: ${update?.manifest?.body}`,
+        `มีเวอร์ชั่นใหม่  พร้อมให้อัพเดท\n\nรายละเอียด: `,
         { title: "อัพเดทแอพพลิเคชั่น" }
       );
 
@@ -29,8 +30,8 @@ export async function checkForUpdates() {
     }
   } catch (error) {
     await message(`เกิดข้อผิดพลาด: ${error}`, {
-      title: "Error",
-      type: "error"
+      title: "Error"
+      // type: "error"
     });
   }
 }
