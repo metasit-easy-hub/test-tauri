@@ -1,0 +1,11 @@
+{
+  "version": "v1.0.0",
+  "notes": "รายละเอียดการอัพเดท",
+  "pub_date": "2024-03-21T19:25:57Z",
+  "platforms": {
+    "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSZkt0OHMwSkg2MVJOL1BraGNUck5rTnplT0hZcXUzd2VXZnB6R1d2NDkwYlRielBxM2lySWthUVM0VWhWK1ZFZTZUVlJDVnpDRG4rN2xSMHF3NDJYQytFdFBiMnE4SUFzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzM1ODA5ODk3CWZpbGU6Q29tbWVyenkgVmlkZW8gVXBsb2FkZXJfMS4wLjBfeDY0LXNldHVwLmV4ZQpqMWlSU0JJZUJTbDdLNXZtblNuVmt3d0MrUGJIZkw4NmYwLzJNYVZjRmd6a3JWenVjSU96TGZtOVVYNnVqbGtYWUFWcUVaZHB4RnIyOGN6cTVJWkpCdz09Cg==",
+    "windows-x86_64": {
+      "url": "https://github.com/EasyHub-Company/cmz-pack-station-app/releases/latest/download/latest.json"
+    }
+  }
+}
