@@ -1,11 +1,11 @@
 {
-  "version": "v8.0.0",
+  "version": "v10.0.0",
   "notes": "รายละเอียดการอัพเดท",
   "pub_date": "2024-03-21T19:25:57Z",
   "platforms": {
-    "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSZkt0OHMwSkg2MWNhREt4czFUbm5hS09aMnR2MVUwcG0zdEpkc2FBRXFFK2xnT29kaTR4Vnozb0E5Um5kWlpnQ2gyTUN6WTRWMWdnUDNCaWowSjdGZ0hEcnQ2d0RVYWdVPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzM1ODE1NDQ1CWZpbGU6Q29tbWVyenkgVmlkZW8gVXBsb2FkZXJfNi4wLjBfeDY0LXNldHVwLmV4ZQpCZENXeDVZVThDcFhnSFVtdFhXS1RDSlJzUkpaMVVwMlZjZ0pSOXRwa2tpUFlFNkc2aWJDaXJ2Uk1HZHYzU0hJSjJyNitCdzJHcksrQVRNVEF3a21DQT09Cg==",
+    "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVSZkt0OHMwSkg2MVF1bTdtSXpIaytSenhBclJWQ0VZa214dXZDQXJaQy9nMW5ZU0VSU2IrMXJORGc2UGw4QzlZRUt0ZlRPc3B1c2VncHBRSXB4SlI0eG1ucUVCbGdIaHdrPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzM1ODE3NzU1CWZpbGU6Q29tbWVyenkgVmlkZW8gVXBsb2FkZXJfOS4wLjBfeDY0LXNldHVwLmV4ZQpMVWdrV0YzdG9nSEhvQnNHMEhjQ2Myam5JdnFYcGFYOUhZT3RickhQYUJFWUVVTTdtV0NWR3hoQkx4R1pMUEttZHB5dDZBL212R3g0VlRTNWRoZENEQT09Cg==",
     "windows-x86_64": {
-      "url": "https://github.com/EasyHub-Company/cmz-pack-station-app/releases/latest/download/7.0.0/latest.json"
+      "url": "https://github.com/EasyHub-Company/cmz-pack-station-app/releases/latest/download/9.0.0/Commerzy-Video-Uploader_10.0.0_x64-setup.rar"
     }
   }
 }
