@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "Commerzy Video Uploader",
-  "version": "6.0.0",
+  "version": "8.0.0",
   "identifier": "com.tauri-app.app",
   "build": {
     "frontendDist": "../src",
@@ -44,8 +44,11 @@
   "plugins": {
     "updater": {
       "active": true,
+      "windows": {
+        "installMode": "passive"
+      },
       "endpoints": [
-        "https://github.com/EasyHub-Company/cmz-pack-station-app/releases/download/v7.0.0/latest.json"
+        "https://github.com/EasyHub-Company/cmz-pack-station-app/releases/download/v8.0.0/latest.json"
       ],
       "dialog": true,
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEQ1RkE5MUQwMkNERjJBNUYKUldSZkt0OHMwSkg2MVhMSWFiL01hcmU1RjdoQitKVkp3VFZQZEpOWU1GWmQxb09HTWsyQnE5Q3YK"

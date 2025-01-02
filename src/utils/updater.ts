@@ -8,7 +8,7 @@ export async function checkForUpdates() {
 
     if (update?.available) {
       const confirmed = await confirm(
-        `มีเวอร์ชั่นใหม่ ${update.manifest?.version} พร้อมให้อัพเดท\n\nรายละเอียด: ${update.manifest?.body}`,
+        `มีเวอร์ชั่นใหม่ ${update?.manifest?.version} พร้อมให้อัพเดท\n\nรายละเอียด: ${update?.manifest?.body}`,
         { title: "อัพเดทแอพพลิเคชั่น" }
       );
 
