@@ -41,7 +41,7 @@ CjXYR1JziehTEAWN+rtWIFZYu56AjfoBBRBsW16pl19s45wx/vDs2/tsH6++jQWK
 9ieoAeCa6kewqc80gpHvjtk+eQUwZb86XW6Ibc+jDEvSW4EPnUk5B+OxJO3JfMCr
 STAGTEMHUEmZjPeGaYtqexKEvAaEJECBxBRBYzs3pDWoSUMj52xy884vgDgv8pwe
 kCgOpPpECPmUvyK0HaRXvgrUGOpsH/e52YjCnqkQDuGL`;
-
+console.log('test');
 let encodedStringBtoA = btoa(base64);
 console.log(encodedStringBtoA, "encodedStringBtoA");
 // import { checkForUpdates } from "../utils/updater";
