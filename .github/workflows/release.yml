@@ -35,8 +35,18 @@ jobs:
         run: yarn install # หรือ npm install
 
       - name: Create latest.json
+        id: create_latest
         run: |
-          echo '{"version": "__VERSION__", "description": "Latest version of the app"}' > latest.json
+          VERSION=$(cat src-tauri/tauri.conf.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g' | tr -d '[[:space:]]')
+          echo '{"version": "'$VERSION'", "description": "Latest version of the app"}' > latest.json
+
+      - name: Upload latest.json to release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: latest.json
+          draft: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: tauri-apps/tauri-action@dev
         env:
