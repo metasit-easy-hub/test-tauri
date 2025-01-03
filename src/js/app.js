@@ -20,7 +20,7 @@ try {
   await checkForUpdates();
 
   // โค้ดเดิม
-  console.log("DOMContentLoaded");
+  console.log("DOMContentLoaded-test");
   // เช็คอัพเดททุก 1 ชั่วโมง
   // setInterval(async () => {
   //   await checkForUpdates();
