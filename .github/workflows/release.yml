@@ -34,6 +34,10 @@ jobs:
       - name: Install Frontend Dependencies
         run: yarn install # หรือ npm install
 
+      - name: Create latest.json
+        run: |
+          echo '{"version": "__VERSION__", "description": "Latest version of the app"}' > latest.json
+
       - uses: tauri-apps/tauri-action@dev
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -44,4 +48,3 @@ jobs:
           releaseName: "v__VERSION__"
           releaseBody: "See the assets to download this version."
           releaseDraft: true
- 
