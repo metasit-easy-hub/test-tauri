@@ -2,7 +2,7 @@ name: Release
 on:
   push:
     branches:
-      - feature-app-file  # จะทำงานเมื่อมีการ push ไปที่ branch release
+      - feature-app-file # จะทำงานเมื่อมีการ push ไปที่ branch release
 
 jobs:
   publish-tauri:
@@ -12,34 +12,34 @@ jobs:
       fail-fast: false
       matrix:
         platform: [macos-latest, ubuntu-22.04, windows-latest]
-        
+
     runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 'lts/*'
-          
+          node-version: "lts/*"
+
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
-          
+
       - name: Install Dependencies (Ubuntu)
         if: matrix.platform == 'ubuntu-22.04'
         run: |
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.0-dev libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
-          
+
       - name: Install Frontend Dependencies
         run: yarn install # หรือ npm install
-        
+
       - uses: tauri-apps/tauri-action@dev
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
         with:
-          tagName: v__VERSION__  # จะแทนที่ด้วยเวอร์ชั่นจาก tauri.conf.json
-          releaseName: 'v__VERSION__'
-          releaseBody: 'See the assets to download this version.'
+          tagName: v__VERSION__ # จะแทนที่ด้วยเวอร์ชั่นจาก tauri.conf.json
+          releaseName: "v__VERSION__"
+          releaseBody: "See the assets to download this version."
           releaseDraft: true
