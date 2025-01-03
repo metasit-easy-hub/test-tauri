@@ -2,7 +2,7 @@ name: Release
 on:
   push:
     branches:
-      - feature-app-file # จะทำงานเมื่อมีการ push ไปที่ branch release
+      - test-build # จะทำงานเมื่อมีการ push ไปที่ branch release
 
 jobs:
   publish-tauri:
