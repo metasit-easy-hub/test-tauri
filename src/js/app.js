@@ -12,8 +12,20 @@ let progress = "0";
 let storeSelectMove = [];
 let statusUpload = false;
 let percentCompleted = null;
+// import { checkForUpdates } from "../utils/updater";
+// import { checkForUpdates } from "../utils/updater.ts";
+import { checkForUpdates } from "../utils/updater.js";
 
 try {
+  await checkForUpdates();
+
+  // โค้ดเดิม
+  console.log("DOMContentLoaded");
+  // เช็คอัพเดททุก 1 ชั่วโมง
+  // setInterval(async () => {
+  //   await checkForUpdates();
+  // }, 1000 * 60 * 60);
+
   // prompt("Please enter your text:")
 
   // ฟังก์ชันสำหรับบันทึกค่าลงใน array โดยไม่ซ้ำกัน
