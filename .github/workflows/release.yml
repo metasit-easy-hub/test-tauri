@@ -34,12 +34,6 @@ jobs:
       - name: Install Frontend Dependencies
         run: yarn install # หรือ npm install
 
-      - name: Create latest.json
-        id: create_latest
-        run: |
-          VERSION=$(cat src-tauri/tauri.conf.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g' | tr -d '[[:space:]]')
-          echo '{"version": "'$VERSION'", "description": "Latest version of the app"}' > latest.json
-
       - name: Upload latest.json to release
         uses: softprops/action-gh-release@v1
         with:
@@ -54,7 +48,7 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         with:
-          tagName: v__VERSION__ # จะแทนที่ด้วยเวอร์ชั่นจาก tauri.conf.json
+          tagName: v__VERSION__
           releaseName: "v__VERSION__"
           releaseBody: "See the assets to download this version."
           releaseDraft: true
