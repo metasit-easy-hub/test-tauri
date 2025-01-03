@@ -12,22 +12,47 @@ let progress = "0";
 let storeSelectMove = [];
 let statusUpload = false;
 let percentCompleted = null;
+
+let base64 = `MIIFLTBXBgkqhkiG9w0BBQ0wSjApBgkqhkiG9w0BBQwwHAQI2vLwpUubd/kCAggA
+MAwGCCqGSIb3DQIJBQAwHQYJYIZIAWUDBAEqBBCP/KxIH1fsVBiSWQr7Zy5qBIIE
+0BakeqTSUBXo5I7S3ZRmoeNQAkps2HFBqK/V+4YUZ1xGEcVC5fVVyNt2cQ33pxph
+3Is2zpG7f2giplvTtTMJjTXnQJL4cCGWWzNGRJxQy7x/bzZJ6FLREt4qNbEUp1HU
+GI+kXkrYIcILuBgzILgysugzr1Dq1o23P8uY17mcl4YMtPDCGTCVyEmuaqmIPi5m
+Haw+JeYJhFjBB2fy1qmXCumDb2B3lhTWiBlDvd9QuZUM1UZGhA2gKsYSto9xVUDm
+vLeKgZc6/YMMnyeF7hsCRdWm+m0zN7hwuOXL6vST8hQzeVpg/aNCBnrIEO3HHzEb
+wuuoj0pV+D0p1mY98fJo61e6woNqpDnhP7ME/VXKOxie6vMtfBVcGJLVlJdoejOg
+w43aGXuftL14rhSV4ldxGl0nVyfnFWJPp37nXZoo5zgrGGVykBZEgi7eHF7/nulG
+r6m9bPTAspb769IhsvHrq0FaI9+xsmsdkYMciYqRrDTBUi56IUSfrbNLdKwD5kUQ
+J7OHfbtk8Gyd5Pu2+PWM5crfjq/3mGbuBwx/IoQRldrLEhb37UuB4Tvrl0feDItJ
+tDqpKVnOCBO3TOK8z5wzSeWe3Kp3RX+mnJuoYs4tUSk/XKJG+UpxYtB4UWu96fMB
+3ADxQKaGXHPTrN1xmM6Ik+SLiKyqMZ9hGT9PX7cJ79e2Br5+JJ1DUQDo5X8Fc8iy
+aed9PdAbUVIdnkLFBm4McTon4s6PKu1xrY9nCCM1s1i+3Nmr1IHkSUqx/uGL9xM6
+5bARKzLX5eBz3tXnJ42T3/smhvHYIFcdTkM1I04TxMOuXXQyYc7665qf0X3HkTli
+zcI0WPhQREmAr4rWDnB7cB8m+HfqtPufso0PfMvWzJ/X6F+/5f4mMnEeBQFLoBB9
+SROSHtDH9ryn2FYYtLSsMcqGeYTNNnLNV3+QwImv9TGUONjxiE7UAF8DEZNHPJ23
+Adp3z3/5XTJsaqnnSAwlbIdW+Q3EOIMU/yg4cxuiraz6Fv5VliiaVb8VYOC9EZVF
+HYDMIxcHfMKYvZ/O1jlx4sXJ+pC7kX7PDlC+SP1secCvziwnAeQ7zKpi9Nt2az/5
+dAxmUCpBn4fyftzpSrXSXO3HfMBEaNeYQAjC/Ha02i1B6yWG8t3QIXjccrRnEYA2
+pGYfaslbIrntlFHS4Tf0L4D1t0l6DwLLnywIvwmHNCTj2Z9RO7o9zYpwgvxqGzq/
+GBUg2NG48kOpYRlkWxnfqsv3GzIM+1Ki0w97eojcp4qJhO1J8Yl1jCJOsjXqqJP5
+LMQb9/nHwHjA9gsfqdOqHYJkQKVQKwiF57VyeCWtkOjoyiOpdW7qvYKqWFaj0iev
+whHnwfN4tpIwS9B+wFVQkvxcQyeV6VDbYhv4frtUufWH/VaQL05Nzlj2pUh1KoJg
+CjXYR1JziehTEAWN+rtWIFZYu56AjfoBBRBsW16pl19s45wx/vDs2/tsH6++jQWK
+9ieoAeCa6kewqc80gpHvjtk+eQUwZb86XW6Ibc+jDEvSW4EPnUk5B+OxJO3JfMCr
+STAGTEMHUEmZjPeGaYtqexKEvAaEJECBxBRBYzs3pDWoSUMj52xy884vgDgv8pwe
+kCgOpPpECPmUvyK0HaRXvgrUGOpsH/e52YjCnqkQDuGL`;
+
+let encodedStringBtoA = btoa(base64);
+console.log(encodedStringBtoA, "encodedStringBtoA");
 // import { checkForUpdates } from "../utils/updater";
 // import { checkForUpdates } from "../utils/updater.ts";
-import { checkForUpdates } from "../utils/updater.js";
+// import { checkForUpdates } from "../utils/updater.js";
 
 try {
-  await checkForUpdates();
+  // await checkForUpdates();
 
   // โค้ดเดิม
   console.log("DOMContentLoaded-test");
-  // เช็คอัพเดททุก 1 ชั่วโมง
-  // setInterval(async () => {
-  //   await checkForUpdates();
-  // }, 1000 * 60 * 60);
-
-  // prompt("Please enter your text:")
-
   // ฟังก์ชันสำหรับบันทึกค่าลงใน array โดยไม่ซ้ำกัน
   function saveUniqueToArray(array, value) {
     // ตรวจสอบว่าค่ายังไม่มีใน array
