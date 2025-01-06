@@ -52,3 +52,5 @@ jobs:
           releaseName: "v__VERSION__"
           releaseBody: "See the assets to download this version."
           releaseDraft: false
+          prerelease: false
+          args: --target nsis # เพิ่มบรรทัดนี้เพื่อระบุให้ใช้ NSIS
